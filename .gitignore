@@ -1,0 +1,38 @@
+# Intellij
+*.iml
+.idea
+
+# vscode
+.vscode
+.history
+
+# npm
+node_modules
+
+# yarn
+yarn-error.log
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# build
+build
+config.js
+
+# testing
+coverage
+tests/vaults/*/.obsidian
+
+# mkdocs
+site/
+venv/
+.venv/
+docs/docs/en/media/~*
+.obsidian/plugins/obsidian-spaced-repetition-beta/*
+
+# env
+env.sh
