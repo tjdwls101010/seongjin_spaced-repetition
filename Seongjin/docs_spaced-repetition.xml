@@ -1,0 +1,1383 @@
+This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
+The content has been processed where security check has been disabled.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Only files matching these patterns are included: docs/docs/en
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Security check has been disabled - content may contain sensitive information
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+docs/
+  docs/
+    en/
+      flashcards/
+        cards-with-blank-lines.md
+        cloze-cards.md
+        decks.md
+        flashcards-overview.md
+        q-and-a-cards.md
+        reviewing.md
+        statistics.md
+      algorithms.md
+      contributing.md
+      data-storage.md
+      index.md
+      notes.md
+      plugin-commands.md
+      resources.md
+      user-options.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="docs/docs/en/flashcards/cards-with-blank-lines.md">
+# Including Blank Lines in Flashcards
+
+By default, [Multi-line Basic](q-and-a-cards.md#multi-line-basic), [Multi-line Bidirectional](q-and-a-cards.md#multi-line-bidirectional)
+and [Cloze](cloze-cards.md) type flashcards recognize a blank line as the end of the flashcard text.
+This means that blank lines can not be included within the text.
+
+If blank lines need to be included (e.g. on a card containing a markdown table), the
+`Characters denoting the end of clozes and multiline flashcards` [setting](../user-options.md#flashcard-separators)
+needs to be changed.
+
+For example, it could be changed to `+++`.
+
+!!! warning "Global Edit Required"
+
+    Note that after changing this you have to manually edit any flashcards you already have.
+
+## Including a Table in the Flashcard Answer
+
+!!! note "Obsidian requires a blank line before a table for it to be displayed correctly."
+
+    Without it, Obsidian displays it just as text and not correctly formatted.
+
+    ![table-with-no-preceding-blank-line](https://github.com/user-attachments/assets/daed1309-3b38-4d14-bb42-b302efda96df)
+
+    And with a blank line after the `?` and before the table, it is displays correctly.
+    ![table-with-preceding-blank-line](https://github.com/user-attachments/assets/beef90b7-324e-4876-b10b-055a4d23d41f)
+
+However, by default a blank line signifies the end of the multiline card.
+
+To include the blank line, the
+`Characters denoting the end of clozes and multiline flashcards` [setting](../user-options.md#flashcard-separators)
+needs to be changed. Then that character sequence added as a line after the end of the flashcard text. For example:
+
+![table-with-preceding-blank-line+++](https://github.com/user-attachments/assets/954fd7fc-6d5f-4315-b40e-2192664c3962)
+
+Now the card is displayed correctly during a review.
+
+![table-with-preceding-blank-line-review](https://github.com/user-attachments/assets/3bff8d25-f91f-4bc0-b922-7471d6b60869)
+
+## Including Blank Lines in a Cloze Flashcard
+
+With `Convert ==highlights== to clozes` enabled in [settings](../user-options.md#flashcard-separators)
+and the `Characters denoting the end of clozes and multiline flashcards` set to `+++`,
+we can have blank lines in a cloze flashcard. E.g.
+
+![cloze-with-blank-lines](https://github.com/user-attachments/assets/f9d6f123-3378-41cb-9c93-2b061856c81d)
+
+As there are 3 clozes defined, three separate cards will be generated for review.
+One card, for example is:
+
+![cloze-with-blank-lines-front1](https://github.com/user-attachments/assets/6b939d46-b93a-4a67-96d4-6985ccafb76e)
+
+And after `Show Answer` is clicked, the following is displayed:
+
+![cloze-with-blank-lines-answer](https://github.com/user-attachments/assets/225abd90-20a4-4e29-abb3-36beb61388d7)
+
+## Limitation
+
+### Blank Lines in Answer Side Only
+
+Blank lines are only supported in the answer side of a multiline flashcard, and not in the question side.
+</file>
+
+<file path="docs/docs/en/flashcards/cloze-cards.md">
+# Cloze Cards
+
+With [Single & Multiline Cards](../flashcards/q-and-a-cards.md) the text of both the front and back of each card is specified.
+
+With `cloze` cards a single text is specified, together with an identification of which parts of the text should be obscured.
+
+The front of the card is displayed as the text with (one or more) `cloze deletions` obscured.
+
+## Cloze Deletions
+
+A part of the card text is identified as a cloze deletion by surrounding it with the `cloze delimiter`.
+
+### Single Cloze Deletion
+
+By default, the cloze delimiter is `==`, and a simple cloze card would be:
+
+```
+The first female prime minister of Australia was ==Julia Gillard==
+```
+
+!!! note "Displayed when reviewed"
+
+    <div class="grid" markdown>
+
+    !!! tip "Initial View"
+
+        The first female prime minister of Australia was [...]
+
+    !!! tip "After `Show Answer` Clicked"
+
+        The first female prime minister of Australia was Julia Gillard
+
+    </div>
+
+### Multiple Cloze Deletions
+
+If the card text identifies multiple parts as cloze deletions, then multiple cards will be shown for review, each one occluding one deletion, while leaving the other deletions visible.
+
+For instance, the following note:
+
+```markdown
+The first female ==prime minister== of Australia was ==Julia Gillard==
+```
+
+!!! note ""
+
+    <div class="grid" markdown>
+
+    !!! tip "Card 1 Initial View"
+
+        The first female [...] of Australia was Julia Gillard
+
+    !!! tip "Card 2 Initial View"
+
+        The first female prime minister of Australia was [...]
+
+    </div>
+
+!!! tip "After `Show Answer` Clicked (same for both cards)"
+
+    The first female prime minister of Australia was Julia Gillard
+
+These two cards are considered sibling cards. See [sibling cards](flashcards-overview.md#sibling-cards) regarding the
+[Bury sibling cards until the next day](../user-options.md#flashcard-review) scheduling option.
+
+## Cloze Types
+
+### Simplified Clozes
+
+Simplified Clozes are the Cloze Type we have been using so far. They keep working as before, but now you can add hints to them. That means each card will occlude one deletion, showing its hint if available, while leaving the other deletions visible.
+
+For instance, the following note:
+
+```
+This ==note== doesn't need to have ==number==^[hint] on clozes
+```
+
+Will generate two cards, with the following fronts:
+
+1. `This [...] doesn't need to have number on clozes`
+2. `This note doesn't need to have [hint] on clozes`
+
+And both will have the same back:
+
+```
+This note doesn't need to have number on clozes
+```
+
+### Classic Clozes
+
+Classic Clozes are the same as Simplified Clozes, but they also have a sequence number used to sort and group deletions.
+
+For instance, the following note:
+
+```
+This is a ==cloze==^[a hint][^1]. This is ==too, but without hint==[^2]. And this one is asked ==together with the first cloze==[^1].
+```
+
+Will generate two cards, with the following fronts:
+
+1. `This is a [a hint]. This is too, but without hint. And this one is asked [...].`
+2. `This is a cloze. This [...]. And this one is asked together with the first cloze.`
+
+And both will have the same back:
+
+```
+This is a cloze. This is too, but without hint. And this one is asked together with the first cloze.
+```
+
+### Generalized Cloze Overlapping
+
+The Cloze Overlapping Generalization allows you to dictate the behavior of each deletion individually. Each deletion has its own set of actions that indicate how it will behave on each card:
+
+- `a` for ask (hide the deletion answer in the front of the card while showing it in the back).
+- `h` for hide (hide the deletion answer both in the front and back of the card).
+- `s` for show (show the deletion answer both in the front and back of the card).
+
+For instance, the following note:
+
+```
+==Some context for items 2 and 4, but that could spoil items 1 and 3. Note that this doesn't even need to be asked==[^hshs]
+.
+- ==Item 1==[^ashh]
+- ==Item 2==[^hash]
+- ==Item 3==[^hhas]
+- ==Item 4==[^hhha]
+```
+
+In this example, 4 cards will be generated, where items 1 to 4 will be asked sequentially. When asking Item 1, all other text will be hidden. When asking Item 2, just the Item 1 and the context will be displayed. When asking Item 3, only the Item 2 will be displayed. Finally, when asking Item 4, both the Item 3 and the context text will be displayed.
+
+## Custom Cloze Patterns
+
+You can now create your own Cloze Patterns. For instance, to emulate Anki-like clozes (e.g., `{{1::text::hint}}`), simply add the following pattern to your settings:
+
+```
+{{[123::]answer[::hint]}}
+```
+
+Brackets `[]` delineate where the sequence number and hint will be placed, along with any additional characters of your choice (e.g., the `::` in the example above). Clozecraft automatically generates a regex pattern based on your custom pattern. Sequence numbers are identified by finding numbers between brackets, hints by finding the word `hint` in brackets, and the deleted text by finding the word `answer`.
+
+Here are some examples of custom patterns:
+
+| Explanation                                               | Pattern in the Settings               | Simplified Cloze Usage                                                                                  | Numbered Cloze Usage                                                                                            | Generalized Cloze Overlapping Usage                                                                             |
+| --------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Anki-Like Pattern                                         | `{{[123::]answer[::hint]}}`           | `Brazilians speak {{Portuguese}}`<br><br>Or, with hint:<br>`Brazilians speak {{Portuguese::language}}`  | `Brazilians speak {{1::Portuguese}}`<br><br>Or, with hint:<br>`Brazilians speak {{1::Portuguese::language}}`    | `Brazilians speak {{a::Portuguese}}`<br><br>Or, with hint:<br>`Brazilians speak {{a::Portuguese::language}}`    |
+| Highlighted pattern with hint and sequencer in footnotes. | `==answer==[^\\[hint\\]][\\[^123\\]]` | `Brazilians speak ==Portuguese==`<br><br>Or, with hint:<br>`Brazilians speak ==Portuguese==^[language]` | `Brazilians speak ==Portuguese==[^1]`<br><br>Or, with hint:<br>`Brazilians speak ==Portuguese==^[language][^1]` | `Brazilians speak ==Portuguese==[^a]`<br><br>Or, with hint:<br>`Brazilians speak ==Portuguese==^[language][^a]` |
+
+!!! warning
+
+    Make sure that your custom cloze patterns do not conflict with other flashcard separators.<br/>
+    For instance, the Anki-Like pattern `{{[123::]answer[::hint]}}` conflicts with the default single line flashcard separator `::`.
+
+!!! warning
+
+    You can use brackets as part of your pattern, but you need to [escape](https://en.wikipedia.org/wiki/Escape_character) them with `\\`.<br/>
+    For instance, in the pattern `==answer==[^\\[hint\\]][\\[^123\\]]`, the brackets _inside_ the outer brackets are escaped (`^\\[hint\\]` & `\\[^123\\]`).
+
+In your settings, you can add multiple patterns at once, separating them with a new line:
+
+```
+{{[123::]answer[::hint]}}
+==answer==[^\\[hint\\]][\\[^123\\]]
+```
+
+Then, you can use them in your notes:
+
+```
+This note has both ==highlighted clozes==[^1] and {{2::anki like clozes}}
+
+And this note has both ==highlighted clozes==^[footnote hint][^1] and {{2::anki like clozes::anki like hint}}
+```
+
+!!! warning
+
+    Remember, deletions must be of the same Cloze Type. You can't mix, for instance, a Classic Cloze with a Simplified Cloze in the same note, as they employ different ways to sort and identify the cards.
+</file>
+
+<file path="docs/docs/en/flashcards/decks.md">
+# Organizing into Decks
+
+![flashcard-decks-1](https://github.com/user-attachments/assets/a207b0f6-b064-443c-9c55-540681b10891)
+
+## Using Obsidian Tags
+
+1. Specify flashcard tags in settings (`#flashcards` is the default).
+2. Tag any notes that you'd like to put flashcards using said tags.
+
+### Hierarchical Tags
+
+Note that `#flashcards` will match nested tags like `#flashcards/subdeck/subdeck`.
+
+### Multiple Tags Within a Single File
+
+A single file can contain cards for multiple different decks.
+
+This is possible because a tag pertains to all subsequent cards in a file until any subsequent tag.
+
+For example:
+
+```markdown
+#flashcards/deckA
+Question1 (in deckA)::Answer1
+Question2 (also in deckA)::Answer2
+Question3 (also in deckA)::Answer3
+
+#flashcards/deckB
+Question4 (in deckB)::Answer4
+Question5 (also in deckB)::Answer5
+
+#flashcards/deckC
+Question6 (in deckC)::Answer6
+```
+
+### A Single Card Within Multiple Decks
+
+Usually the content of a card is only relevant to a single deck. However, sometimes content doesn't fall neatly into a single deck of the hierarchy.
+
+In these cases, a card can be tagged as being part of multiple decks. The following card is specified as being in the three different decks listed.
+
+```markdown
+#flashcards/language/words #flashcards/trivia #flashcards/learned-from-tv
+A group of cats is called a::clowder
+```
+
+Note that as shown in the above example, all tags must be placed on the same line, separated by spaces.
+
+### Question Specific Tags
+
+A tag that is present at the start of the first line of a card is "question specific", and applies only to that card.
+
+For example:
+
+```markdown
+#flashcards/deckA
+Question1 (in deckA)::Answer1
+Question2 (also in deckA)::Answer2
+Question3 (also in deckA)::Answer3
+
+#flashcards/deckB Question4 (in deckB)::Answer4
+
+Question6 (in deckA)::Answer6
+```
+
+Here `Question6` will be part of `deckA` and not `deckB` as `deckB` is specific to `Question4` only.
+
+---
+
+## Using Folder Structure
+
+The plugin will automatically search for folders that contain flashcards & use their paths to create decks & sub-decks
+
+e.g. `Folder/sub-folder/sub-sub-folder` ⇔ `Deck/sub-deck/sub-sub-deck`.
+
+This is an alternative to the tagging option and can be enabled in [settings](../user-options.md#tags-folders).
+</file>
+
+<file path="docs/docs/en/flashcards/flashcards-overview.md">
+# Flashcard Introduction
+
+Flashcards are defined within standard Obsidian markdown files.
+
+A markdown file containing flashcards must identify the [deck](decks.md) (or decks) into which the flashcards are placed.
+However, the file does not need to be tagged as a [note](../notes.md) for it to have flashcards defined.
+
+Two types of flashcards are supported:
+
+<div class="grid" markdown>
+
+!!! note "Question & Answer"
+
+    [Question & Answer](q-and-a-cards.md) flashcards are ones where the flashcard text contains both the question text and answer text.
+
+    <hr class="thin">
+    ![flashcard-qanda-example](https://github.com/user-attachments/assets/65639d80-b249-4b16-ae40-c2af011c6aab)
+
+!!! note "Cloze"
+
+    [Cloze](cloze-cards.md) flashcards are ones where the flashcard text identifies parts of the text (e.g. a word or phrase) that is hidden
+    when the front of the card is shown. <br/>
+    The hidden text is known as a `cloze deletion`.
+    <hr class="thin">
+    ![flashcard-cloze-example](https://github.com/user-attachments/assets/9fb12f2e-9b81-45d9-9097-7f1e3d97ae5a)
+
+</div>
+
+!!! tip
+
+    For guidelines on how to write and structure flashcards, see [Spaced Repetition Guides](../resources.md#flashcards)
+
+---
+
+## Flashcard Text, Flashcards and Cards
+
+!!! note
+
+    For simplicity `flashcard text` is sometimes written just as `flashcard`
+
+The `flashcard text` is text that defines the type and content of a card (or a set of related, `sibling` cards).
+
+### Single flashcard, multiple cards
+
+For some flashcard types, the flashcard text defines a single card. For other flashcard types, multiple
+cards are defined.
+
+| Flashcard Type                                                          | Cards Defined                                                                                 |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [Single-line Basic](q-and-a-cards.md#single-line-basic)                 | flashcard defines the front and back of a single card.                                        |
+| [Single-line Bidirectional](q-and-a-cards.md#single-line-bidirectional) | flashcard defines two cards.                                                                  |
+| [Multi-line Basic](q-and-a-cards.md#multi-line-basic)                   | flashcard defines the front and back of a single card.                                        |
+| [Multi-line Bidirectional](q-and-a-cards.md#multi-line-bidirectional)   | flashcard defines two cards.                                                                  |
+| [Cloze](cloze-cards.md)                                                 | flashcard defines multiple cards, the number of cards based on the number of cloze deletions. |
+
+### Sibling Cards
+
+If there are multiple cards defined by a single flashcard, those cards are known as `sibling` cards.
+
+A special scheduling option is available for the review of sibling cards. If the [Bury sibling cards until the next day](../user-options.md#flashcard-review) setting is turned on,
+only one sibling card is available for review on a single day.
+
+### Including Blank Lines within Multiline and Cloze Flashcards
+
+By default, the end of a multiline flashcard is denoted by a blank line at the end of the flashcard text.
+This means that blank lines can not be included within the text.
+
+See [Cards with Blank Lines](cards-with-blank-lines.md) if blank lines need to be included.
+
+---
+
+## RTL Support
+
+There are two ways that the plugin can be used with RTL languages, such as Arabic, Hebrew, Persian (Farsi).
+
+If all cards are in a RTL language, then simply enable the global Obsidian option `Editor → Right-to-left (RTL)`.
+
+If all cards within a single note have the same LTR/RTL direction, then frontmatter can be used to specify the text direction. For example:
+
+```
+---
+direction: rtl
+---
+```
+
+This is the same way text direction is specified to the `RTL Support` plugin.
+
+Note that there is no current support for cards with different text directions within the same note.
+
+---
+
+## Card Maintenance
+
+### Deleting cards
+
+To delete a card, simply delete the scheduling information & the card text.
+
+### Ignoring cards
+
+You can wrap flashcards in HTML comments e.g. `<!--Card text <!--SR:2021-08-20,13,290--> -->` to prevent it from showing up in your review queues. You can always remove the wrapping comment later.
+</file>
+
+<file path="docs/docs/en/flashcards/q-and-a-cards.md">
+# Question & Answer Cards
+
+!!! note
+
+    Cards must be assigned to a deck, either using an Obsidian tag such as `#flashcard` or by using the
+    folder structure within the vault.
+
+    See [Decks](decks.md) for further details.
+
+## Single-line Basic
+
+The prompt and the answer are separated by `::` (this can be configured in [settings](../user-options.md#flashcard-separators)).
+
+```markdown
+the question goes on this side::answer goes here!
+```
+
+!!! note "Displayed when reviewed"
+
+    <div class="grid" markdown>
+
+    !!! tip "Card Front"
+
+        the question goes on this side
+
+    !!! tip "Card Back"
+
+        answer goes here!
+
+    </div>
+
+## Single-line Bidirectional
+
+Two cards are created from the single flashcard text.
+
+The two parts are separated by `:::` (this can be configured in [settings](../user-options.md#flashcard-separators)).
+
+For example:
+
+```markdown
+info 1:::info 2
+```
+
+!!! note "Card 1"
+
+    <div class="grid" markdown>
+
+    !!! tip "Front"
+
+        info 1
+
+    !!! tip "Back"
+
+        info 2
+
+    </div>
+
+!!! note "Card 2"
+
+    <div class="grid" markdown>
+
+    !!! tip "Front"
+
+        info 2
+
+    !!! tip "Back"
+
+        info 1
+
+    </div>
+
+These two cards are considered sibling cards. See [sibling cards](flashcards-overview.md#sibling-cards) regarding the
+[Bury sibling cards until the next day](../user-options.md#flashcard-review) scheduling option.
+
+---
+
+## Multi-line Basic
+
+The front and the back of the card are separated by `?` (this can be configured in [settings](../user-options.md#flashcard-separators)).
+
+```markdown
+As per the definition
+of "multiline" the prompt
+can be on multiple lines
+?
+same goes for
+the answer
+```
+
+!!! note "Displayed when reviewed"
+
+    <div class="grid" markdown>
+
+    !!! tip "Card Front"
+
+        As per the definition <br/>
+        of "multiline" the prompt <br/>
+        can be on multiple lines
+
+    !!! tip "Card Back"
+
+        same goes for <br/>
+        the answer
+
+    </div>
+
+These can also span over multiple lines as long as both sides "touch" the `?`.
+
+See [Cards with Blank Lines](cards-with-blank-lines.md) if blank lines need to be included.
+
+---
+
+## Multi-line Bidirectional
+
+Two cards are created from the single flashcard text.
+
+The two parts are separated by `??` (this can be configured in [settings](../user-options.md#flashcard-separators)).
+
+For example:
+
+```markdown
+info 1A
+info 1B
+info 1C
+??
+info 2A
+info 2B
+```
+
+These can also span over multiple lines as long as both sides "touch" the `??`:
+To include blank lines, see the section below.
+
+!!! note "Card 1"
+
+    <div class="grid" markdown>
+
+    !!! tip "Front"
+
+        info 1A <br/>
+        info 1B <br/>
+        info 1C
+
+    !!! tip "Back"
+
+        info 2A <br/>
+        info 2B
+
+    </div>
+
+!!! note "Card 2"
+
+    <div class="grid" markdown>
+
+    !!! tip "Front"
+
+        info 2A <br/>
+        info 2B
+
+    !!! tip "Back"
+
+        info 1A <br/>
+        info 1B <br/>
+        info 1C
+
+    </div>
+
+These two cards are considered sibling cards. See [sibling cards](flashcards-overview.md#sibling-cards) regarding the
+[Bury sibling cards until the next day](../user-options.md#flashcard-review) scheduling option.
+</file>
+
+<file path="docs/docs/en/flashcards/reviewing.md">
+# Reviewing & Cramming
+
+A key part of spaced repetition learning is being shown the front of cards to test whether or not you recall the information on the back. There are two similar functions that perform this – [reviewing](#reviewing) & [cramming](#cramming).
+
+<div class="grid" markdown>
+
+!!! tip "Reviewing"
+
+    For the selected deck, you are only shown<br/>
+    :material-circle-medium: new cards (i.e. ones that have never been reviewed before) as well as <br/>
+    :material-circle-medium: due cards (those that the [algorithm](../algorithms.md) has decided it's time to review)
+
+!!! tip "Cramming"
+
+    You are shown every single card in the selected deck/note, even those that have recently been reviewed.
+
+</div>
+
+## Common Features of Reviewing & Cramming
+
+### Deck Selection
+
+Although you may want to review or cram all cards across all decks, you often may wish to do so on only a subset of decks.
+
+![flashcard-decks-1](https://github.com/user-attachments/assets/a207b0f6-b064-443c-9c55-540681b10891)
+
+!!! note "All subdecks included"
+
+    For example, clicking on the `course` deck will also include all cards within the `aws`
+    and `developer-associate` decks.
+
+### Operation
+
+![review-operation](https://github.com/user-attachments/assets/d8f438dc-f1f0-43c4-a752-a5eeb64346e4)
+
+!!! note "" # | Name | Description - | - | -
+1 | Edit | Edit the flashcard text
+2 | Reset | Reset the review schedule information - the review interval is set to 1 day, and the ease is set to the default value
+3 | Info | Shows the scheduling information for the card
+4 | Skip | Skip the current card without reviewing
+
+### Context
+
+If the parent note has heading(s), the flashcard will have a title containing the context.
+
+Taking the following note:
+
+```markdown
+#flashcards
+
+# Trivia
+
+## Capitals
+
+### Africa
+
+Kenya::Nairobi
+
+### North America
+
+Canada::Ottawa
+```
+
+!!! tip "Context displayed"
+![reviewing-context](https://github.com/user-attachments/assets/2ccfc23a-a106-4133-91ec-8bd0efd0e372)
+
+!!! note
+Context is only shown if enabled in [UI Preferences](../user-options.md#ui-preferences)
+
+### Keyboard shortcuts
+
+To review faster, use the following keyboard shortcuts:
+
+- `Space/Enter` => Show answer
+- `0` => Reset card's progress (Sorta like `Again` in Anki)
+- `1` => Review as `Hard`
+- `2` => Review as `Good`
+- `3` => Review as `Easy`
+
+---
+
+## Reviewing
+
+Once done creating cards, click on the flashcards button on the left ribbon to start reviewing the flashcards. After a card is reviewed, a HTML comment is added containing the next review day, the interval, and the card's ease.
+
+```
+<!--SR:!2021-08-20,13,290-->
+```
+
+Wrapping in a HTML comment makes the scheduling information not visible in the notes preview. For single-line cards, you can choose whether you want the HTML comment on the same line or on a separate line in the settings. Putting them on the same line prevents breaking of list structures in the preview or after auto-formatting.
+
+Note that you can skip a card by simply pressing `S` (case doesn't matter).
+
+!!! tip
+
+    If you're experiencing issues with the size of the modal on mobile devices,
+    go to [settings](../user-options.md#ui-preferences) and set the _Flashcard Height Percentage_ and _Flashcard Width Percentage_
+    to 100% to maximize it.
+
+---
+
+## Cramming
+
+You are shown every single card, even those that have recently been reviewed.
+By using the appropriate [command](../plugin-commands.md) have the choice of cramming cards:
+
+| Cards                                  | Command                                           |
+| -------------------------------------- | ------------------------------------------------- |
+| Within a single note                   | `Spaced Repetition: Cram flashcards in this note` |
+| Within a deck (including all subdecks) | `Spaced Repetition: Select a deck to cram note`   |
+</file>
+
+<file path="docs/docs/en/flashcards/statistics.md">
+## Statistics
+
+The statistics section can be accessed in the `Statistics` section in the plugin's settings.
+
+### Forecast
+
+Stats on the number of cards due in the future.
+
+<img src="https://raw.githubusercontent.com/st3v3nmw/obsidian-spaced-repetition/master/docs/media/en/stats_forecast.png" />
+
+### Intervals
+
+Stats on delays until cards are shown again.
+
+### Eases
+
+Stats on card eases.
+
+### Card Types
+
+Stats on card types: New, Young, Mature (Have intervals more than 1 month).
+</file>
+
+<file path="docs/docs/en/algorithms.md">
+# Learning Algorithms
+
+A learning algorithm is a formula that determines when a note or flashcard should next be reviewed.
+
+| Algorithm                                           | Status      |
+| --------------------------------------------------- | ----------- |
+| [SM-2-OSR](#sm-2-osr)                               | Implemented |
+| [FSRS](#fsrs)                                       | Planned     |
+| [User Defined Intervals](#user-specified-intervals) | Planned     |
+
+## SM-2-OSR
+
+- The `SM-2-OSR` algorithm is a variant of [Anki's algorithm](https://faqs.ankiweb.net/what-spaced-repetition-algorithm.html) which is based on the [SM-2 algorithm](https://www.supermemo.com/en/archives1990-2015/english/ol/sm2).
+- It supports ternary reviews i.e. a concept is either hard, good, or easy at the time of review.
+- initial ease is weighted (using max_link_factor) depending on the average ease of linked notes, note importance, and the base ease.
+- Anki also applies a small amount of random “fuzz” to prevent cards that were introduced at the same time and given the same ratings from sticking together and always coming up for review on the same day.
+- The algorithm is essentially the same for both notes and flashcards - apart from the PageRanks
+
+### Algorithm Details
+
+!!! warning
+
+    Note that this hasn't been updated in a while,
+    please see the [code](https://github.com/st3v3nmw/obsidian-spaced-repetition/blob/master/src/algorithms/osr/srs-algorithm-osr.ts).
+
+- `if link_count > 0: initial_ease = (1 - link_contribution) * base_ease + link_contribution * average_ease` - `link_contribution = max_link_factor * min(1.0, log(link_count + 0.5) / log(64))` (cater for uncertainty)
+    - The importance of the different concepts/notes is determined using the PageRank algorithm (not all notes are created equal xD)
+        - On most occasions, the most fundamental concepts/notes have higher importance
+- If the user reviews a concept/note as:
+    - easy, the ease increases by `20` and the interval changes to `old_interval * new_ease / 100 * 1.3` (the 1.3 is the easy bonus)
+    - good, the ease remains unchanged and the interval changes to `old_interval * old_ease / 100`
+    - hard, the ease decreases by `20` and the interval changes to `old_interval * 0.5`
+        - The `0.5` can be modified in settings
+        - `minimum ease = 130`
+    - For `8` or more days:
+        - `interval += random_choice({-fuzz, 0, +fuzz})`
+            - where `fuzz = ceil(0.05 * interval)`
+            - [Anki docs](https://faqs.ankiweb.net/what-spaced-repetition-algorithm.html):
+                > "[...] Anki also applies a small amount of random “fuzz” to prevent cards that were introduced at the same time and given the same ratings from sticking together and always coming up for review on the same day."
+- The scheduling information is stored in the YAML front matter
+
+---
+
+## FSRS
+
+The algorithm is detailed at:
+[fsrs4anki](https://github.com/open-spaced-repetition/fsrs4anki/wiki)
+
+Incorporation of the FSRS algorithm into this plugin has not yet occurred. For progress see:
+[ [FEAT] sm-2 is outdated, can you please replace it with the fsrs algorithm? #748 ](https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/748)
+
+---
+
+## User Specified Intervals
+
+This is the simplest "algorithm" possible. There are fixed intervals configured by the user for each of the possible review outcomes.
+
+For example, `hard` might be configured for an interval of 1 day.
+
+Implementation of this technique has not yet occurred. For progress see:
+[ [FEAT] user defined "Easy, Good, Hard" values instead of or in addition to the algorithm defined one. #741 ](https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/741)
+</file>
+
+<file path="docs/docs/en/contributing.md">
+# Contributing
+
+First off, thanks for wanting to contribute to the Spaced Repetition plugin!
+
+## Bug Reports & Feature Requests
+
+- Check the [roadmap](https://github.com/st3v3nmw/obsidian-spaced-repetition/projects/2/) for upcoming features & fixes.
+- Raise an issue [here](https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/) if you have a feature request or a bug report.
+- Visit the [discussions](https://github.com/st3v3nmw/obsidian-spaced-repetition/discussions/) section for Q&A help, feedback, and general discussion.
+
+## Translating
+
+The plugin has been translated into the following languages by the Obsidian community 😄.
+
+- Arabic / العربية
+- Chinese (Simplified) / 简体中文
+- Chinese (Traditional) / 繁體中文
+- Czech / čeština
+- French / français
+- German / Deutsch
+- Italian / Italiano
+- Korean / 한국어
+- Japanese / 日本語
+- Polish / Polski
+- Portuguese (Brazil) / Português do Brasil
+- Spanish / Español
+- Russian / русский
+- Turkish / Türkçe
+
+### Steps
+
+To help translate the plugin to your language:
+
+1. Fork the [repository](https://github.com/st3v3nmw/obsidian-spaced-repetition).
+2. Copy the entries from `src/lang/locale/en.ts` to the proper file in `src/lang/locale/` (i.e. `fr.ts` for French, or `sw.ts` for Swahili). The locale codes are [IETF language tags](https://en.wikipedia.org/wiki/IETF_language_tag).
+3. Translate,
+4. Then open a pull request,
+
+### Example
+
+Sample `en.ts` file:
+
+```typescript
+// English
+
+export default {
+    EASY: "Easy",
+    SHOW_ANSWER: "Show Answer",
+    DAYS_STR_IVL: "${interval} days",
+    CHECK_ALGORITHM_WIKI:
+        'For more information, check the <a href="${algoUrl}">algorithm implementation</a>.',
+};
+```
+
+Equivalent `sw.ts` file:
+
+```typescript
+// Swahili
+
+export default {
+    EASY: "Rahisi",
+    SHOW_ANSWER: "Onyesha Jibu",
+    DAYS_STR_IVL: "Siku ${interval}",
+    CHECK_ALGORITHM_WIKI:
+        'Kwa habari zaidi, angalia <a href="${algoUrl}">utekelezaji wa algorithm</a>.',
+};
+```
+
+<sub><sup>A part of that last one is uhh, Google translated, I have a working understanding of Swahili but not enough to write computerese lol.</sup></sub>
+
+Please note that:
+
+1. Only the strings(templates) on the right of the key should be translated.
+2. Text inside `${}` isn't translated. This is used to replace variables in code. For instance, if interval = 4, it becomes `4 days` in English & `Siku 4` in Swahili. Quite nifty if you ask me.
+
+---
+
+## Code
+
+### General changes
+
+1. Make your changes.
+2. Run `pnpm dev` to watch for changes & rebuild the plugin automatically.
+3. You could create symbolic links between the build files and the Obsidian vault, example:
+
+    ```bash
+    # remove existing files in the Obsidian vault
+    rm ~/notes/.obsidian/plugins/obsidian-spaced-repetition/main.js ~/notes/.obsidian/plugins/obsidian-spaced-repetition/manifest.json ~/notes/.obsidian/plugins/obsidian-spaced-repetition/styles.css
+    # use absolute paths
+    ln -s /home/stephen/obsidian-spaced-repetition/build/main.js /home/stephen/notes/.obsidian/plugins/obsidian-spaced-repetition
+    ln -s /home/stephen/obsidian-spaced-repetition/manifest.json /home/stephen/notes/.obsidian/plugins/obsidian-spaced-repetition
+    ln -s /home/stephen/obsidian-spaced-repetition/styles.css /home/stephen/notes/.obsidian/plugins/obsidian-spaced-repetition
+    ```
+
+    - This can be coupled with the [Hot Reload plugin](https://github.com/pjeby/hot-reload)
+
+4. Document the "user-facing" changes e.g. new feature, UI change, etc.
+5. If your "business logic" is properly decoupled from Obsidian APIs, write some unit tests.
+    - This project uses [jest](https://jestjs.io/), tests are stored in `tests/`.
+    - `pnpm test`
+6. Before pushing your changes, run the linter: `pnpm lint`
+    - Format the code in case any warnings are raised: `pnpm format`
+7. Open the pull request.
+
+### UI changes
+
+- All UI changes should be made in the `src/gui/` folder.
+
+- Put your changes under the right section (see "MARK:" or "#region" comments in the code).
+
+- Document your functions & classes with JSDoc.
+
+- One can switch between mobile view and desktop view by entering the following command in developer console:
+
+    ```js
+    this.app.emulateMobile(false); // to switch to desktop view
+
+    this.app.emulateMobile(true); // to switch to mobile view
+    ```
+
+- Test your changes in all arrangements that the ui can be in:
+    1. Desktop
+    2. Mobile portrait mode
+    3. Small sized mobile device
+    4. Mobile landscape mode
+    5. Tablet landscape mode
+    6. Tablet portrait mode
+    7. All the above, but with tab view option enabled
+    8. All the above, but with tab view option disabled
+    9. All the above, but with tab view option disabled and different flashcard height/width percentages
+
+---
+
+## Documentation
+
+The documentation consists of Markdown files which [MkDocs](https://www.mkdocs.org/) converts to static web pages.
+Specifically, this project uses [MkDocs Material](https://squidfunk.github.io/mkdocs-material/getting-started/).
+
+These files reside in `docs/docs/` in the respective language's folder. For instance, English docs are located in `docs/docs/en/`.
+
+The docs are served on [https://www.stephenmwangi.com/obsidian-spaced-repetition/](https://www.stephenmwangi.com/obsidian-spaced-repetition/).
+
+For small changes, you can simply open an pull request for merging (against the `master` branch).
+The changes will be live once a new [release](https://github.com/st3v3nmw/obsidian-spaced-repetition/releases) is made.
+
+For larger diffs, it's important that you check how your docs look like as explained below.
+
+### Viewing Docs Locally
+
+#### Initial Setup
+
+1. Create a virtual environment: `python3 -m venv venv`
+2. Activate it: `. venv/bin/activate`
+3. Install the required dependencies: `pip install -r requirements.txt`
+
+#### Viewing
+
+1. Activate the virtual environment: `. venv/bin/activate`
+2. Serve the docs: `mkdocs serve`
+3. View your documentation locally on [http://127.0.0.1:8000/obsidian-spaced-repetition/](http://127.0.0.1:8000/obsidian-spaced-repetition/), any changes you make will reflect on the browser instantly.
+
+### Translating Documentation
+
+1. Create a folder for your language in `docs/docs/` if it doesn't exist. Use the language codes provided [here](https://squidfunk.github.io/mkdocs-material/setup/changing-the-language/#site-language).
+2. Add the code from (1) to the MkDocs configuration (`mkdocs.yml` - `plugins.i18n.languages`).
+3. Copy the files from the English (`en`) folder into the new folder.
+4. Translate then open a pull request.
+
+---
+
+## Maintenance
+
+### Releases
+
+Example using `v1.9.2`:
+
+1. Create a new branch: `git switch -c release-v1.9.2`
+2. Bump the plugin version in `manifest.json` and `package.json` (following [Semantic Versioning](https://semver.org/spec/v2.0.0.html)).
+    - Semantic Versioning TL;DR, given a version number `MAJOR.MINOR.PATCH`, increment the:
+        - `MAJOR` version when you make incompatible API changes
+        - `MINOR` version when you add functionality in a backwards compatible manner
+        - `PATCH` version when you make backwards compatible bug fixes
+    - If the new version uses new Obsidian APIs, update `minAppVersion` and `versions.json` to reflect this.
+3. Run `pnpm changelog` to update the CHANGELOG.
+4. Commit and push the changes:
+
+    ```bash
+    git add .
+    git commit -m "chore: bump version to v1.9.2"
+    git push --set-upstream origin release-v1.9.2
+    ```
+
+5. Open and merge the PR into `master`.
+6. Locally, switch back to `master` and pull the changes: `git switch master && git pull`
+7. Create a git tag with the version: `git tag -a 1.9.2 -m "1.9.2"`
+8. Push the tag: `git push --tags`. <br> You're all set! [This GitHub action](https://github.com/st3v3nmw/obsidian-spaced-repetition/blob/master/.github/workflows/release.yml) should pick it up, create a release, publish it, and update the live documentation.
+</file>
+
+<file path="docs/docs/en/data-storage.md">
+# Data Storage
+
+## Scheduling Information
+
+### Individual Markdown Files
+
+This is the original method used for storing the scheduling information for cards and notes.
+
+For cards this is stored in an HTML comment for that card. For example with the card:
+
+```
+The RCU and WCU limits for a single partition key value::3000 RCU, 1000 WCU
+```
+
+When the card is reviewed, an HTML comment will be added after the card's text, such as:
+
+```
+<!--SR:!2024-08-16,51,230-->
+```
+
+By default, the comment is stored on the line following the card text.
+Alternatively, it can be stored on the same line by enabling the
+[Save scheduling comment on the same line as the flashcard's last line?](user-options.md#storage-of-scheduling-data) option.
+
+Scheduling information for the note is kept at the beginning of the file, in YAML format within the frontmatter section.
+For example:
+
+![note-frontmatter](https://github.com/user-attachments/assets/b9744f50-c897-46ad-ab34-1bbc55796b57)
+
+!!! note "Raw text format"
+
+    ---
+    sr-due: 2024-07-01
+    sr-interval: 3
+    sr-ease: 269
+    ---
+
+### Single Scheduling File
+
+The scheduling information for all cards and notes is kept in a single dedicated file.
+
+Implementation of this has not yet occurred. For progress see:
+
+[[FEAT] Stop using YAML; Move plugin info and data to separate file #162](https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/162)
+
+---
+
+## User Options
+
+All user [options](user-options.md) are stored in `data.json` in the plugin folder.
+
+---
+
+## Card Postponement List
+
+This records a list of cards reviewed today that have sibling cards that shouldn't be reviewed until tomorrow.
+
+Cards are only added to this list if the [Bury sibling cards until the next day](user-options.md#flashcard-review) setting is turned on.
+
+This information is also kept in the `data.json` file.
+
+!!! note
+
+    To minimise the space required for this, a copy of the card is not stored. Rather a small numeric hash code ("fingerprint") is kept.
+</file>
+
+<file path="docs/docs/en/index.md">
+# Obsidian Spaced Repetition
+
+<img src="https://img.shields.io/github/downloads/st3v3nmw/obsidian-spaced-repetition/total" /> <img src="https://img.shields.io/github/downloads/st3v3nmw/obsidian-spaced-repetition/latest/total?style=flat-square" /> <img src="https://img.shields.io/github/manifest-json/v/st3v3nmw/obsidian-spaced-repetition?style=flat-square" />
+
+Fight the forgetting curve by reviewing flashcards & notes using spaced repetition on Obsidian.md
+
+<div class="grid" markdown>
+
+!!! tip "Getting started"
+
+    :material-circle-medium: View the [quick demo](index.md#quick-demo) below<br/>
+    :material-circle-medium: [Plugin installation](index.md#installation)<br/>
+    :material-circle-medium: General [guidelines & tips](resources.md) about spaced repetition learning.
+
+!!! tip "Features"
+
+    :material-circle-medium: [Flashcards](flashcards/flashcards-overview.md) &nbsp; &nbsp; :material-circle-medium: [Notes](notes.md) <br/>
+    :material-circle-medium: [User Options](user-options.md) &nbsp; &nbsp; :material-circle-medium: [Commands](plugin-commands.md)
+    <hr class="thin">
+    :material-circle-medium: [Repetition Algorithms](algorithms.md) &nbsp; &nbsp; :material-circle-medium: [Data Storage](data-storage.md)
+
+!!! tip "Help & Support"
+
+    :material-circle-medium: Visit the [discussions](https://github.com/st3v3nmw/obsidian-spaced-repetition/discussions/) section for Q&A help, feedback, and general discussion.<br/>
+    :material-circle-medium: Raise an issue [here](https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/) if you have a feature request or a bug report.
+
+!!! tip "Contributing"
+
+    :material-circle-medium: The plugin has been translated into over [10 languages](contributing.md#translating) by the Obsidian community 😄. To help translate this plugin to your language, check the [translation guide here](contributing.md#translating).<br/>
+    :material-circle-medium: Software developers can contribute [feature enhancements and bug fixes](contributing.md#code)
+
+</div>
+
+---
+
+## Quick Demo
+
+![user-interface-overview](https://github.com/user-attachments/assets/977bab30-cc5e-4b5c-849e-3881d82b3f8e)
+
+!!! note ""
+
+    1. Display the [Note Review Queue](notes.md#note-review-queue) <br/>
+    2. Note review queue<br/>
+    3. Display the Obsidian command dialog to access the plugin [commands](plugin-commands.md)<br/>
+    4. `Flashcard Review Icon` Select a flashcard [deck](flashcards/reviewing.md#deck-selection) to [review](flashcards/reviewing.md#reviewing) <br/>
+    5. Identify that flashcards within this note are in the `#flashcards/science/physics` [deck](flashcards/decks.md#using-obsidian-tags)<br/>
+    6. A [single line question](flashcards/q-and-a-cards.md#single-line-basic) (identified by the `::` separating the question and answer)<br/>
+    7. The plugin stores scheduling info within this [HTML comment](data-storage.md#individual-markdown-files) <br/>
+    8. `Spaced Repetition Status Area` The number of notes and flashcards currently due for review. Click to [open a note for review](notes.md#selecting-a-note-for-review).
+
+<video controls>
+  <source src="https://user-images.githubusercontent.com/43380836/115256965-5d455f00-a138-11eb-988f-27ba29f328a0.mp4" type="video/mp4">
+</video>
+
+---
+
+## Installation
+
+You can easily install the plugin from Obsidian's community plugin section in the Obsidian app (Search for `Spaced Repetition`).
+
+### Manual Installation
+
+!!! note "Advanced"
+
+    Create an `obsidian-spaced-repetition` folder under `.obsidian/plugins` in your vault. Add the `main.js`, `manifest.json`, and the `styles.css` files from the [latest release](https://github.com/st3v3nmw/obsidian-spaced-repetition/releases) to the folder.
+
+---
+
+## Support
+
+<a href='https://ko-fi.com/M4M44DEN6' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+</file>
+
+<file path="docs/docs/en/notes.md">
+# Notes
+
+!!! tip
+
+    For guidelines on how to write and structure notes, see [Spaced Repetition Guides](resources.md#notes)
+
+## Getting started
+
+Tag any markdown files for review with the `note review` tag, which by default is `#review`.
+
+The note will appear under `New` in the `Note Review Queue` in the right pane.
+
+!!! note
+
+    When you tag a note with `#review` the note doesn't immediately appear in the review queue.
+    You will need to first click on the `Flashcard Review Icon` or the `Spaced Repetition Status Area` for the queue to update
+
+## Note Review Queue
+
+![note-review-queue](https://github.com/user-attachments/assets/c0e1d09c-610f-4775-b532-ab78369b117a)
+
+!!! note ""
+
+    1. The Note Review Queue <br/>
+    2. The `Note Review Deck` for tag `#review` <br/>
+    3. The new notes - i.e. those tagged with `#review` but have yet to be reviewed <br/>
+    4. The notes scheduled for review on August 1 <br/>
+    5. The notes scheduled for review on August 31 <br/>
+
+### Displaying the Note Review Queue
+
+By default, the Note Review Queue is displayed when the plugin starts. This can be changed with
+the `Enable note review pane on startup` [setting](user-options.md#note-settings).
+
+The Note Review Queue can also be shown by using the `Open Notes Review Queue in sidebar`
+[command](plugin-commands.md).
+
+## Reviewing
+
+Open a file, read & review it. Once done, choose either the `Review: Easy`, `Review: Good`, or the `Review: Hard` option on the file menu (the three dots). Select `Easy`, `Good`, or `Hard` depend on how well you comprehend the material being reviewed.
+
+![file-three-dots-menu](https://github.com/user-attachments/assets/5f37ab88-30f9-477d-b39c-eb86ba15abdb)
+
+Alternatively, you can right click on the file within the note review queue, and access the same options:
+
+![note-review-queue-context-menu](https://github.com/user-attachments/assets/d4affa19-5126-45f8-bf3c-0079d2a8a597)
+
+The note will then be scheduled appropriately by the [learning algorithm](algorithms.md), and the markdown file updated:
+
+![note-frontmatter](https://github.com/user-attachments/assets/b9744f50-c897-46ad-ab34-1bbc55796b57)
+
+### Keyboard Shortcuts
+
+The `Easy`, `Good`, and `Hard` review result can also be selected from the plugin's [command list](plugin-commands.md).
+
+This is less practical than the methods described above, but does enable the definition of keyboard shortcuts.
+You can create custom hotkeys for the review result in `Settings -> HotKeys`.
+
+### Selecting a Note for Review
+
+There are a few ways to open a note for review:
+
+- Open a note via the standard Obsidian features
+- Double click on a note title from the Note Review Queue
+- Click on the `Spaced Repetition Status Area` in the status bar at the bottom of the screen
+- Select the command [Open a note to review review](plugin-commands.md)
+
+There are also the following relevant options:
+
+- [Open a random note for review](user-options.md)
+- [Open next note automatically after a review](user-options.md)
+
+## Multiple Note Review Decks
+
+By default, there is a single review deck called `#review`.
+
+This default tag can be changed in the [settings](user-options.md#note-settings). Multiple review decks can also be specified.
+
+## Spaced Repetition Status Area
+
+`Review: N note(s)` on the status bar at the bottom of the screen shows how many notes one has to review today (Today's notes + overdue notes).
+
+Clicking on that opens one of the notes for review.
+</file>
+
+<file path="docs/docs/en/plugin-commands.md">
+# Plugin Commands
+
+![plugin-commands](https://github.com/user-attachments/assets/4838812c-121b-4bd1-82b3-46138b2ae67f)
+</file>
+
+<file path="docs/docs/en/resources.md">
+# Spaced Repetition Resources
+
+## General
+
+- [How to Remember Anything Forever-Ish by Nicky Case](https://ncase.me/remember/)
+- [Spaced Repetition for Efficient Learning by Gwern](https://www.gwern.net/Spaced-repetition/)
+- [20 rules of knowledge formulation by Dr. Piotr Wozniak](https://supermemo.guru/wiki/20_rules_of_knowledge_formulation) is a great introduction on proper flashcard creation.
+
+---
+
+## Flashcards
+
+- [PRODUCTIVELY Learning New Things Using Obsidian by @FromSergio :fontawesome-brands-youtube:{ .youtube } ](https://youtu.be/DwSNZEW6jCU)
+
+---
+
+## Notes
+
+- Notes should be atomic i.e. focus on a single concept.
+- Notes should be highly linked.
+- Reviews should start only after properly understanding a concept.
+- Reviews should be [Feynman-technique](https://fs.blog/2021/02/feynman-learning-technique/)-esque.
+
+### Incremental Writing
+
+- English: [Obsidian: inbox review with spaced repetition by @aviskase :fontawesome-brands-youtube:{ .youtube } ](https://youtu.be/zG5r7QIY_TM)
+- Russian / русский: [Разгребатель инбокса заметок как у Andy Matuschak в Obsidian by @YuliyaBagriy_ru :fontawesome-brands-youtube:{ .youtube } ](https://youtu.be/CF6SSHB74cs)
+
+!!! bug "Improvement Needed"
+
+    Extract anything important from the reference and include here instead
+
+This was introduced [here](https://github.com/st3v3nmw/obsidian-spaced-repetition/issues/15) by `@aviskase`.
+
+#### Brief summary
+
+Andy Matuschak uses [spaced repetition system for working on writing inbox](https://notes.andymatuschak.org/z7iCjRziX6V6unNWL81yc2dJicpRw2Cpp9MfQ).
+
+!!! bug "Improvement Needed"
+
+    What does this mean?
+
+In short, there are four possible actions (where `x < y`):
+
+- skip note (increase interval for `x`) == mark as `good`
+- work on it, mark as fruitful work (decrease interval) == mark as `hard`
+- work on it, mark as unfruitful work (increase interval for `y`) == mark as `easy`
+- convert to evergreen note (stop using the space-repetition prompts)
+</file>
+
+<file path="docs/docs/en/user-options.md">
+# User Options
+
+## Flashcard Settings
+
+### Tags & Folders
+
+![flashcard-settings-tag-folders.jpg](https://github.com/user-attachments/assets/34baba63-8439-4f31-b07b-e8f62671b621)
+
+### Flashcard Review
+
+![flashcard-settings-review.jpg](https://github.com/user-attachments/assets/fe81f6a8-e333-4894-b6cd-db68e1ae6f86)
+
+### Flashcard Separators
+
+![flashcard-settings-separators](https://github.com/user-attachments/assets/744aea85-fdb3-4508-b532-7a551253f97d)
+
+### Storage of Scheduling Data
+
+![flashcard-settings-scheduling-data](https://github.com/user-attachments/assets/200bb976-c631-4d73-82a5-12ba7e140339)
+
+---
+
+## Note Settings
+
+![settings-notes](https://github.com/user-attachments/assets/75f7a55a-933f-436f-868a-efb622cc0f9c)
+
+---
+
+## UI Preferences
+
+![settings-ui-preferences](https://github.com/user-attachments/assets/c0740fa0-02b5-4db9-9d81-94f0ae29ab6c)
+</file>
+
+</files>

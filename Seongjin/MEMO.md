@@ -73,3 +73,14 @@ Add new section in plugin settings:
 pnpm install
 pnpm dev
 ```
+
+
+
+---
+
+
+지금 코드베이스는 obsidian의 spaced-repetition 플러그인에서 더 높은 성능을 가지는 알고리즘은 FSRS를 추가하고, 헤딩섹션으로 플래시카드를 추가할 수 있는 기능을 추가한 플러그인이야.
+기존 플러그인의 SM-2알고리즘과 이 플러그인의 FSRS알고리즘을 비교하며 자세한 설명과 헤딩별 섹션 기능 등을 `README.md`에 작성해줘.
+`Seongjin/docs_spaced-repetition.xml`을 참조해서 해당 플러그인의 기능도 전체적으로 어떤 기능을 가지는지도 `README.md`에 자세히 작성해줘.
+한글 인코딩이 깨지지 않도록 유의하고. 
+`Seongjin/2025-11-26-add-section-based-flashcard-feature-to-obsidian.txt`은 이전에 Claude Code와 내가 나눈 대화 기록이야. 필요하면 참조해.
